@@ -1,5 +1,10 @@
 ipch/*
-Debug/*
-GeneticAlgorithm/Debug/*
 *.sdf
 *.suo
+*.exe
+*.opensdf
+ipch/*
+Release/*
+Debug/*
+GeneticAlgorithm/Debug/*
+GeneticAlgorithm/Release/*

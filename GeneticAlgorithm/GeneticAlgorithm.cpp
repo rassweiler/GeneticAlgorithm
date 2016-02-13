@@ -132,10 +132,17 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//Get initial data
 	int iGeneLength = 0;
-	int iPopulationSize = dist(mt);
-	std::cout << "Population Size: ";
+	int iPopulationSize = 0;
+	std::cout << "Type Population Size (int): ";
+	//Get the value typed as string
+	std::string sPopulationSize;
+	std::getline(std::cin, sPopulationSize);
+	//Convert to int
+	iPopulationSize = stoi(sPopulationSize);
+	std::cout << "Selected Population Size (int): ";
 	std::cout << iPopulationSize;
 	std::cout << "\n";
+	//Get the target string
 	std::cout << "Type a sentence for the target: ";
 	std::string sTarget;
 	std::getline(std::cin, sTarget);
@@ -144,7 +151,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	bool bReachedGoal = false;
 	unsigned long lGeneration = 1;
 
-	//Initiate population TODO: verify that smart pointer is created properly!
+	//Initiate population
 	for (int i = 0; i < iPopulationSize; ++i){
 		std::shared_ptr<DNA> temp(new DNA(iGeneLength));
 		vPopulation.push_back(temp);
@@ -181,12 +188,13 @@ int _tmain(int argc, _TCHAR* argv[])
 		}
 
 		//Fill out mating pool
+		vPool.clear();
 		for (auto it = vPopulation.begin(); it != vPopulation.end(); ++it){
 			int n = (*it)->GetFitness() * 100;
 			for (int i = 0; i < n; ++i){
 
 				/*Create a new shared_ptr i number of times based on
-				the fitness. TODO: Verify strong ref increases */
+				the fitness. */
 				vPool.push_back((*it));
 			}
 		}
