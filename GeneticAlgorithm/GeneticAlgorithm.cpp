@@ -29,8 +29,7 @@ public:
 		}
 
 		//Init fitness and mutation values
-		fFitness = 0.0f;
-		fMutation = 0.01f;
+		fFitness = 0.0f, fMutation = 0.01f;
 	};
 
 	//Create from parents
@@ -50,19 +49,17 @@ public:
 		for (int i = 0; i < parent1->GetGeneSize(); ++i){
 			if (i > m){
 				cGenes.push_back(parent1->GetGeneAt(i));
-			}
-			else{
+			} else {
 				cGenes.push_back(parent2->GetGeneAt(i));
 			}
 		}
 
 		//Initiate fitness and mutation
-		fFitness = 0.0f;
-		fMutation = 0.01f;
+		fFitness = 0.0f, fMutation = 0.01f;
 	};
 
 	//Grab the private fitness value
-	float GetFitness(){
+	double GetFitness() {
 		return fFitness;
 	};
 
@@ -75,7 +72,7 @@ public:
 					++score;
 				}
 			}
-			fFitness = ((float)score) / sTarget.size();
+			fFitness = ((double)score) / sTarget.size();
 		}
 	};
 
@@ -101,22 +98,21 @@ public:
 		std::mt19937 mtt(rdt());
 
 		//random value 0 - 1
-		std::uniform_real_distribution<float> distt(0, 1);
+		std::uniform_real_distribution<double> distt(0, 1);
 
 		//random char value
 		std::uniform_int_distribution<int> distt2(32, 128);
 
-		for (int i = 0; i < cGenes.size(); ++i){
-			float t = distt(mtt);
-			if (t < fMutation){
+		for (int i = 0; i < cGenes.size(); ++i) {
+			double t = distt(mtt);
+			if (t < fMutation) {
 				cGenes[i] = distt2(mtt);
 			}
 		}
 	};
 private:
 	std::vector<char> cGenes;
-	float fFitness;
-	float fMutation;
+	double fFitness, fMutation;
 };
 
 int _tmain(int argc, _TCHAR* argv[])
@@ -124,29 +120,35 @@ int _tmain(int argc, _TCHAR* argv[])
 	//cpp11 random, need to include <random>
 	std::random_device rd;
 	std::mt19937 mt(rd());
-	std::uniform_int_distribution<int> dist(100, 1000);
 
 	//DNA population containers
 	std::vector<std::shared_ptr<DNA>> vPopulation;
 	std::vector<std::shared_ptr<DNA>> vPool;
 
-	//Get initial data
-	int iGeneLength = 0;
-	int iPopulationSize = 0;
+	//Initial Data.
+	//
+	//Get initial Population.
+	int iGeneLength = 0, iPopulationSize;
 	std::cout << "Type Population Size (int): ";
+	std::string sPopulationSize;
+	std::getline(std::cin, sPopulationSize);
+	iPopulationSize = std::stod(sPopulationSize);
+	/*
 	//Get the value typed as string
 	std::string sPopulationSize;
 	std::getline(std::cin, sPopulationSize);
 	//Convert to int
 	iPopulationSize = stoi(sPopulationSize);
-	std::cout << "Selected Population Size (int): ";
-	std::cout << iPopulationSize;
-	std::cout << "\n";
-	//Get the target string
+	*/
+	std::cout << "Selected Population Size (int): " << iPopulationSize << std::endl;
+	//
+	//Get the target string.
 	std::cout << "Type a sentence for the target: ";
 	std::string sTarget;
 	std::getline(std::cin, sTarget);
-	std::cout << "\n";
+	std::cout << std::endl;
+	//
+	//Initialize loop trackers.
 	iGeneLength = sTarget.size();
 	bool bReachedGoal = false;
 	unsigned long lGeneration = 1;
@@ -161,15 +163,13 @@ int _tmain(int argc, _TCHAR* argv[])
 	while (!bReachedGoal){
 
 		//Print Info
-		std::cout << "Generation: ";
-		std::cout << lGeneration;
-		std::cout << "\n";
+		std::cout << "Generation: " << lGeneration << std::endl;
 
 		//Determine fitness and print highest and gene
 		for (auto it = vPopulation.begin(); it != vPopulation.end(); ++it){
 			(*it)->SetFitness(sTarget);
 		}
-		float highest = 0;
+		double highest = 0;
 		int index = 0;
 		for (auto it = vPopulation.begin(); it != vPopulation.end(); ++it){
 			if ((*it)->GetFitness() > highest){
@@ -178,13 +178,13 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 		}
 
-		std::cout << "Highest Fitness: ";
-		std::cout << highest*100;
-		std::cout << "% with gene sequence: ";
-		std::cout << vPopulation.at(index)->GetGeneString();
-		std::cout << "\n";
-		if (highest == 1){
+		//Output results, and check if target has been met.
+		std::cout << "Highest Fitness: " << highest * 100.0 << "% with gene sequence: " 
+			<< vPopulation.at(index)->GetGeneString() << std::endl;
+		if (highest == 1) {
 			bReachedGoal = true;
+			std::cout << "\nFinished. Press enter to exit the program." << std::endl;
+			std::cin.ignore();
 		}
 
 		//Fill out mating pool
@@ -234,6 +234,5 @@ int _tmain(int argc, _TCHAR* argv[])
 		//Increase generation
 		++lGeneration;
 	}
-	std::getline(std::cin, sTarget);
 	return 0;
 }
