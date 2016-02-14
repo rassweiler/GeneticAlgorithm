@@ -15,6 +15,9 @@
 - Written in C++ by [Kyle Rassweiler](http://www.kylerassweiler.ca) [Source](https://github.com/rassweiler/GeneticAlgorithm)
 - Processing tutorial by Daniel Shiffman [Site](http://natureofcode.com/book/chapter-9-the-evolution-of-code/).
 
+## Special Thanks
+- [Ibrahim Ahmed](https://github.com/atbe)
+
 ## License
 (The MIT License)
 
