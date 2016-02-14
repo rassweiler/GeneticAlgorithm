@@ -132,7 +132,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::cout << "Type Population Size (int): ";
 	std::string sPopulationSize;
 	std::getline(std::cin, sPopulationSize);
-	iPopulationSize = std::stod(sPopulationSize);
+	iPopulationSize = std::stoi(sPopulationSize);
 	/*
 	//Get the value typed as string
 	std::string sPopulationSize;
