@@ -16,7 +16,7 @@
 class DNA{
 public:
 	//Create from random
-	DNA(int iLength){
+	DNA(int iLength, double mutationRate){
 		std::random_device rdt;
 		std::mt19937 mtt(rdt());
 
@@ -29,7 +29,7 @@ public:
 		}
 
 		//Init fitness and mutation values
-		fFitness = 0.0f, fMutation = 0.01f;
+		dFitness = 0.0f, dMutation = mutationRate;
 	};
 
 	//Create from parents
@@ -45,7 +45,7 @@ public:
 		on each gene */
 		int m = distt(mtt);
 
-		//Begin filling cGenes array TODO: Ensure genes pushed in correct order
+		//Begin filling cGenes array
 		for (int i = 0; i < parent1->GetGeneSize(); ++i){
 			if (i > m){
 				cGenes.push_back(parent1->GetGeneAt(i));
@@ -55,12 +55,17 @@ public:
 		}
 
 		//Initiate fitness and mutation
-		fFitness = 0.0f, fMutation = 0.01f;
+		dFitness = 0.0f, dMutation = parent1->GetMutationRate();
+	};
+
+	//Grab the private mutation rate value
+	double GetMutationRate() {
+		return dMutation;
 	};
 
 	//Grab the private fitness value
 	double GetFitness() {
-		return fFitness;
+		return dFitness;
 	};
 
 	//Set the fitness based on the passed target
@@ -72,7 +77,7 @@ public:
 					++score;
 				}
 			}
-			fFitness = ((double)score) / sTarget.size();
+			dFitness = ((double)score) / sTarget.size();
 		}
 	};
 
@@ -105,19 +110,19 @@ public:
 
 		for (int i = 0; i < cGenes.size(); ++i) {
 			double t = distt(mtt);
-			if (t < fMutation) {
+			if (t < dMutation) {
 				cGenes[i] = distt2(mtt);
 			}
 		}
 	};
 private:
 	std::vector<char> cGenes;
-	double fFitness, fMutation;
+	double dFitness, dMutation;
 };
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	//cpp11 random, need to include <random>
+	//Random device
 	std::random_device rd;
 	std::mt19937 mt(rd());
 
@@ -125,29 +130,29 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::vector<std::shared_ptr<DNA>> vPopulation;
 	std::vector<std::shared_ptr<DNA>> vPool;
 
-	//Initial Data.
-	//
-	//Get initial Population.
+	//Variables
 	int iGeneLength = 0, iPopulationSize;
+	double dMutationRate = 0.01;
+	std::string sTempString, sTarget;
+
+	//Get initial Population from user.
 	std::cout << "Type Population Size (int): ";
-	std::string sPopulationSize;
-	std::getline(std::cin, sPopulationSize);
-	iPopulationSize = std::stoi(sPopulationSize);
-	/*
-	//Get the value typed as string
-	std::string sPopulationSize;
-	std::getline(std::cin, sPopulationSize);
-	//Convert to int
-	iPopulationSize = stoi(sPopulationSize);
-	*/
+	std::getline(std::cin, sTempString);
+	iPopulationSize = std::stoi(sTempString);
 	std::cout << "Selected Population Size (int): " << iPopulationSize << std::endl;
-	//
+
+	//Get initial mutation rate from user.
+	std::cout << "Type Muatation Rate (double, eg: 0.01): ";
+	std::getline(std::cin, sTempString);
+	dMutationRate = std::stod(sTempString);
+	std::cout << "Selected Muation Rate: " << dMutationRate << std::endl;
+	sTempString = "";
+	
 	//Get the target string.
 	std::cout << "Type a sentence for the target: ";
-	std::string sTarget;
 	std::getline(std::cin, sTarget);
 	std::cout << std::endl;
-	//
+	
 	//Initialize loop trackers.
 	iGeneLength = sTarget.size();
 	bool bReachedGoal = false;
@@ -155,7 +160,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	//Initiate population
 	for (int i = 0; i < iPopulationSize; ++i){
-		std::shared_ptr<DNA> temp(new DNA(iGeneLength));
+		std::shared_ptr<DNA> temp(new DNA(iGeneLength,dMutationRate));
 		vPopulation.push_back(temp);
 	}
 
@@ -199,7 +204,8 @@ int _tmain(int argc, _TCHAR* argv[])
 			}
 		}
 
-		//Clear old population (not realistic but deal)
+		/* Clear old population 
+		(not realistic but deal, other options are removing x number with worst fitness or adding an age parameter etc..)*/
 		vPopulation.clear();
 
 		//Mate pairs to recreate population
