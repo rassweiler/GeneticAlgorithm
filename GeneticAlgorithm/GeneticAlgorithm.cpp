@@ -135,6 +135,9 @@ int _tmain(int argc, _TCHAR* argv[])
 	double dMutationRate = 0.01;
 	std::string sTempString, sTarget;
 
+	//Display
+	std::cout << "Genetic Algorithm C++ Edition.\nKyle Rassweiler 2015\n----------------------------\n" << std::endl;
+
 	//Get initial Population from user.
 	std::cout << "Type Population Size (int): ";
 	std::getline(std::cin, sTempString);
