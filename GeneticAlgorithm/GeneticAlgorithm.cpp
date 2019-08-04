@@ -1,10 +1,10 @@
 /*
 =====================================================================
 |	Author: Kyle Rassweiler											|
-|	Date: 2015-12-04												|
+|	Date: 2015-12-04 (Updated:2019-08-01)							|
 |	License: MIT													|
 |	Description: Evolution algorithm example.						|
-|	Source: 														|
+|	Source: https://github.com/rassweiler/GeneticAlgorithm			|
 |																	|
 |	Rewritten from Processing example: 								|
 |	http://natureofcode.com/book/chapter-9-the-evolution-of-code/	|
@@ -136,7 +136,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	std::string sTempString, sTarget;
 
 	//Display
-	std::cout << "Genetic Algorithm C++ Edition.\nKyle Rassweiler 2015\n----------------------------\n" << std::endl;
+	std::cout << "Genetic Algorithm C++ Edition.\nKyle Rassweiler 2015-2019\n----------------------------\n" << std::endl;
 
 	//Get initial Population from user.
 	std::cout << "Type Population Size (int): ";

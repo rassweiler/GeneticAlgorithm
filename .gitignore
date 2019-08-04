@@ -8,3 +8,4 @@ Release/*
 Debug/*
 GeneticAlgorithm/Debug/*
 GeneticAlgorithm/Release/*
+.vs/*
