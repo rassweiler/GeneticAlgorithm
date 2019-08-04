@@ -1,5 +1,8 @@
 #Simple Genetic Algorithm
 
+## About
+A small program that attempts to evolve towards a determined fitness goal. A higher fitness increases the chance to reproduce, and every reproduction has a chance for mutation.
+
 ## Setup Windows
 
 - Open visual studio solution, 2013 or 2015
@@ -12,7 +15,7 @@
 
 ## Credits
 
-- Written in C++ by [Kyle Rassweiler](http://www.kylerassweiler.ca) [Source](https://github.com/rassweiler/GeneticAlgorithm)
+- Written in C++ by [Kyle Rassweiler](https://www.kylerassweiler.com) [Source](https://github.com/rassweiler/GeneticAlgorithm)
 - Processing tutorial by Daniel Shiffman [Site](http://natureofcode.com/book/chapter-9-the-evolution-of-code/).
 
 ## Special Thanks
